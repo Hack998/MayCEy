@@ -1,0 +1,4 @@
+aterrizar
+despegar
+solicitar
+solicito
