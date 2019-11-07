@@ -8,30 +8,26 @@ aeronave(mediana, [boeing717, embraer190, airBusA220]).
 aeronave(grande, [boeing747, airBusA340, airBusA380]).
 
 % Tabla Pistas
-:-dynamic pista/6.
+% pista(numero, largo, tipoNave, direccion, disponibilidad, horaOcup)
 
-pista(p1, "1km", pequena, na, na, "0:00hrs").
-pista(p2-1, "2km", mediana, eo, na, "0:00hrs").
-pista(p2-2, "2km", mediana, oe, na, "0:00hrs").
-pista(p3, "3km", grande, na, na, "0:00hrs").
+:-dynamic pista/6.
+pista(p1, "1km", [pequena], [ns, eo, oe, sn], na, 0).
+pista(p2-1, "2km", [pequena, mediana], [eo], na, 0).
+pista(p2-2, "2km", [pequena, mediana], [oe], na, 0).
+pista(p3, "3km", [pequena, mediana, grande], [ns, eo, oe, sn], na, 0).
 
 % Tabla Emergencias
-emergencia(perdidaMotor).
-emergencia(parto).
-emergencia(paroCardiaco).
-emergencia(secuestro).
 
-% Tabla Atencion de Emergencias
-atencionE(llamarBomberos).
-atencionE(llamarMedicos).
-atencionE(llamarOij).
-atencionE(llamarFP).
+respuestaE(perdidaMotor, llamarBomberos).
+respuestaE(parto, llamarMedico).
+respuestaE(paroCardiaco, llamarMedico).
+respuestaE(secuestro, llamarOijFP).
 
 % Tabla Condiciones Aterrizaje
-condicion(viento).
-condicion(peso).
-condicion(distancia).
-condicion(velocidad).
+condicion(viento, 0).
+condicion(peso, 0).
+condicion(distancia, 0).
+condicion(velocidad, 0).
 
 % ======================================================
 % ********************* Funciones **********************
@@ -46,56 +42,18 @@ tipoNave(X, Nave):-
     aeronave(X, Y),
     miembro(Nave, Y).
 
-despegar(Nave, HoraAsig, Dir):-
-    asignarPista(Nave, HoraAsig, Dir).
-
-aterrizar(Nave, HoraAsig, Dir):-
-    asignarPista(Nave, HoraAsig, Dir).
-
-asignarPista(Nave, HoraAsig, Dir):-
-    tipoNave(mediana, Nave),!,
-    pistaDisp(mediana, Pista),
-    pista(Pista, _, mediana, Dir, na, _),
-    assert(pista(Pista, _, mediana, Dir, Nave, HoraAsig)),
-    retract(pista(Pista, _, mediana, Dir, na, "0:00hrs")).
-
 asignarPista(Nave, HoraAsig, Dir):-
     tipoNave(TNave,Nave),
-    pistaDisp(TNave, Pista),
-    pista(Pista, _, TNave, _, na, _),
-    assert(pista(Pista, _, TNave, Dir, Nave, HoraAsig)),
-    retract(pista(Pista, _, TNave, _, na, "0:00hrs")).
+    pista(Pista, _, Tams, Dirs, na, _),
+    miembro(TNave, Tams), miembro(Dir, Dirs),
+    write(Pista),
+    assert(pista(Pista, _, Tams, Dir, Nave, HoraAsig)),
+    retract(pista(Pista, _, Tams, _, na, 0)).
 
 
 liberarPista(Nave, HoraAsig, Dir):-
-    tipoNave(TNave, Nave), pista(Pista, _, TNave, Dir, Nave, HoraAsig),
-    assert(pista(Pista, _, TNave, Dir, na, "0:00hrs")),
-    retract(pista(Pista, _, TNave, Dir, Nave, HoraAsig)).
-
-pistaDisp(TNave, Pista):-
-    pista(Pista, _, TNave,_, na, _).
-
-gdeOpqn(Nave):-
-    tipoNave(pequena, Nave); tipoNave(grande, Nave).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    tipoNave(TNave, Nave),
+    pista(Pista, _, Tams, _, Nave, HoraAsig),
+    miembro(TNave, Tams),
+    assert(pista(Pista, _, Tams, Dir, na, 0)),
+    retract(pista(Pista, _, Tams, Dir, Nave, HoraAsig)).
