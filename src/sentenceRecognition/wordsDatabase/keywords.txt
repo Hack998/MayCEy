@@ -20,7 +20,7 @@ parto
 cardiaco
 cardíaco
 secuestro
-EsteOeste
-NorteSur
-OesteEste
-SurNorte
+esteoeste
+nortesur
+oesteeste
+surnorte

@@ -17,6 +17,9 @@ read_file(Stream,[X|L]) :-
 isMember(X, [X|_]).
 isMember(X, [_|Y]):- isMember(X, Y).
 
+atributo(X):- findInFile(Ts, 'D:/OneDrive TEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/atributos.txt'),
+     isMember(X, Ts).
+
 keyword(X):- findInFile(Ts, 'D:/OneDrive TEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/keywords.txt'),
      isMember(X, Ts).
 
@@ -60,6 +63,16 @@ predicado--> [Y]->[Z]->[X],
     {cosa(Y)},
     {preposicion(Z)},
     {keyword(X)}.
+predicado--> [X]->[Y]->[C],
+    {keyword(X)},
+    {preposicion(Y)},
+    {cosa(C)}.
+predicado--> [X]->[Y]->[A]->[C],
+    {keyword(X)},
+    {preposicion(Y)},
+    {atributo(A)},
+    {cosa(C)}.
+
 predicado--> objeto.
 
 
