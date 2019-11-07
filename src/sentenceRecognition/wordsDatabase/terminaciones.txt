@@ -2,4 +2,3 @@ aterrizar
 despegar
 solicitar
 solicito
-despegar

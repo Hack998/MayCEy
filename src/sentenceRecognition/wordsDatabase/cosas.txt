@@ -1,2 +1,6 @@
+terreno
+lugar
 permiso
 pista
+perdida
+motores
