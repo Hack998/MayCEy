@@ -22,6 +22,11 @@ tokens([T|Ts]) --> token(T), spaces, tokens(Ts).
 isMember(X, [X|_]).
 isMember(X, [_|Y]):- isMember(X, Y).
 
+isKeyword(X, Y):- X == Y.
+
+keyword(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/keywords.txt'),
+     isMember(X, Ts).
+
 verbo(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/verbos.txt'),
      isMember(X, Ts).
 
@@ -43,6 +48,7 @@ objeto--> {preposicion(X)},
     [Z]->[X]->[Y].
 objeto--> {cosa(Z)},
     [Z].
+objeto--> {verbo(Y)}, [Y].
 
 predicado--> {verbo(X)},
     [X]->objeto.
@@ -54,3 +60,16 @@ sustantivo--> {pronombre(X)},
     [X]->[Y]->adjetivo.
 
 oracion--> predicado, !; predicado->sustantivo, !; sustantivo->predicado, !.
+
+
+
+
+sentenceQuery(Z, Resultado):-
+    string_to_atom(Z, W),
+    downcase_atom(W, X),
+    tokenize_atom(X, L),
+    phrase(oracion, L),
+    keyword(R),
+    isMember(R, L),
+    atom_string(R, Resultado),
+    !.
