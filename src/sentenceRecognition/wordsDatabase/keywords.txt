@@ -17,6 +17,7 @@ fox
 delta
 motores
 parto
+paro
 cardiaco
 cardíaco
 secuestro

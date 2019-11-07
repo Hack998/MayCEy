@@ -6,3 +6,4 @@ perdida
 motores
 matricula
 vuelo
+pasajero

@@ -72,6 +72,12 @@ predicado--> [X]->[Y]->[A]->[C],
     {preposicion(Y)},
     {atributo(A)},
     {cosa(C)}.
+predicado--> [X]->[Y]->[A]->[C],
+    {keyword(X)},
+    {keyword(Y)},
+    {preposicion(A)},
+    {cosa(C)}.
+
 predicado--> objeto.
 
 
