@@ -1,6 +1,7 @@
 despegar
 aterrizar
 mayday
+7600
 hola
 cessna
 embraerPhenom
