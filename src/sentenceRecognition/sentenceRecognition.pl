@@ -168,6 +168,11 @@ casoEspecial--> [K],
 casoEspecial--> [K]->[K1],
     {keyword(K)},
     {keyword(K1)}.
+casoEspecial--> [K]->[K1]->[P]->[C],
+    {keyword(K)},
+    {keyword(K1)},
+    {preposicion(P)},
+    {cosa(C)}.
 
 % =========================================================================
 % DCG : oracion

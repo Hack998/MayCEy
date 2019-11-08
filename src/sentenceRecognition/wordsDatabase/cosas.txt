@@ -3,6 +3,7 @@ lugar
 permiso
 pista
 perdida
+pasajero
 motor
 matricula
 vuelo

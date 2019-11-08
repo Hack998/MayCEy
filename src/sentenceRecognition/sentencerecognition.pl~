@@ -198,7 +198,7 @@ sentenceQuery(Z, Resultado):-
 sentenceQuery(Z, Resultado):-
     string_to_atom(Z, W),
     downcase_atom(W, X),
-    atom_string("cambio y fuera", X),
+    atom_string(X, "cambio y fuera"),
     atom_string("cambio", Resultado).
 sentenceQuery(_, Resultado):-
     atom_string("-1", Resultado),
