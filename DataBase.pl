@@ -30,7 +30,7 @@ pista(p3, "3km", [pequena, mediana, grande], ["nortesur", "esteoeste", "oesteest
 
 respuestaE("motor", llamarBomberos).
 respuestaE("parto", llamarMedico).
-respuestaE("cardiaco", llamarMedico).
+respuestaE("paro", llamarMedico).
 respuestaE("secuestro", llamarOijFP).
 
 % =========================================================================
