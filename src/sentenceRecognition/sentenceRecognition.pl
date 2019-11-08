@@ -153,11 +153,21 @@ sustantivo--> [X]->[Y],
     {pronombre(X)},
     {sujeto(Y)}.
 
+% =========================================================================
+% DCG : casoEspecial
+% Params:
+%         K1 - keyword
+%         K - keyword
+%         C - cosa
+% =========================================================================
 casoEspecial--> [X]->[C],
     {keyword(X)},
     {cosa(C)}.
 casoEspecial--> [K],
     {keyword(K)}.
+casoEspecial--> [K]->[K1],
+    {keyword(K)},
+    {keyword(K1)}.
 
 % =========================================================================
 % DCG : oracion
@@ -185,6 +195,11 @@ sentenceQuery(Z, Resultado):-
     keyword(X),
     atom_string(X, Resultado),
     !.
+sentenceQuery(Z, Resultado):-
+    string_to_atom(Z, W),
+    downcase_atom(W, X),
+    atom_string("cambio y fuera", X),
+    atom_string("cambio", Resultado).
 sentenceQuery(_, Resultado):-
     atom_string("-1", Resultado),
     !.
