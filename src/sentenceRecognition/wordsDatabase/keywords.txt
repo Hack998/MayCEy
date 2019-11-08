@@ -25,3 +25,7 @@ esteoeste
 nortesur
 oesteeste
 surnorte
+buenas
+buenos
+adios
+adiós

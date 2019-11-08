@@ -7,3 +7,5 @@ motores
 matricula
 vuelo
 pasajero
+dias
+noches
