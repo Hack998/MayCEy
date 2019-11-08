@@ -12,8 +12,8 @@ findInFile(Lines, File):-
 
 % =========================================================================
 % Regla : read_file
-% Params: Stream - Entrada que va a ser leída
-%         [X|L]  - Lista donde se almacena la información leída
+% Params: Stream - Entrada que va a ser leÃ­da
+%         [X|L]  - Lista donde se almacena la informaciÃ³n leÃ­da
 % =========================================================================
 read_file(Stream, []) :-
     at_end_of_stream(Stream).
@@ -35,49 +35,49 @@ isMember(X, [_|Y]):- isMember(X, Y).
 % Regla : atributo
 % Params: X  - atributo encontrado en el archivo de atributos
 % =========================================================================
-atributo(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/atributos.txt'),
+atributo(X):- findInFile(Ts, '/home/samuel/Escritorio/Cursos/Lenguajes/Logico/Prolog/src/sentenceRecognition/wordsDatabase/atributos.txt'),
      isMember(X, Ts).
 
 % =========================================================================
 % Regla : keyword
 % Params: X  - keyword encontrado en el archivo de keywords
 % =========================================================================
-keyword(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/keywords.txt'),
+keyword(X):- findInFile(Ts, '/home/samuel/Escritorio/Cursos/Lenguajes/Logico/Prolog/src/sentenceRecognition/wordsDatabase/keywords.txt'),
      isMember(X, Ts).
 
 % =========================================================================
 % Regla : verbo
 % Params: X  - verbo encontrado en el archivo de verbos
 % =========================================================================
-verbo(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/verbos.txt'),
+verbo(X):- findInFile(Ts, '/home/samuel/Escritorio/Cursos/Lenguajes/Logico/Prolog/src/sentenceRecognition/wordsDatabase/verbos.txt'),
      isMember(X, Ts), !.
 
 % =========================================================================
 % Regla : pronombre
 % Params: X  - pronombre encontrado en el archivo de pronombres
 % =========================================================================
-pronombre(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/pronombres.txt'),
+pronombre(X):- findInFile(Ts, '/home/samuel/Escritorio/Cursos/Lenguajes/Logico/Prolog/src/sentenceRecognition/wordsDatabase/pronombres.txt'),
     isMember(X, Ts).
 
 % =========================================================================
 % Regla : sujeto
 % Params: X  - sujeto encontrado en el archivo de sujetos
 % =========================================================================
-sujeto(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/sujetos.txt'),
+sujeto(X):- findInFile(Ts, '/home/samuel/Escritorio/Cursos/Lenguajes/Logico/Prolog/src/sentenceRecognition/wordsDatabase/sujetos.txt'),
     isMember(X, Ts).
 
 % =========================================================================
 % Regla : preposicion
 % Params: X  - preposicion encontrado en el archivo de preposiones
 % =========================================================================
-preposicion(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/preposiciones.txt'),
+preposicion(X):- findInFile(Ts, '/home/samuel/Escritorio/Cursos/Lenguajes/Logico/Prolog/src/sentenceRecognition/wordsDatabase/preposiciones.txt'),
     isMember(X, Ts).
 
 % =========================================================================
 % Regla : cosa
 % Params: X  - cosa encontrado en el archivo de cosas
 % =========================================================================
-cosa(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/cosas.txt'),
+cosa(X):- findInFile(Ts, '/home/samuel/Escritorio/Cursos/Lenguajes/Logico/Prolog/src/sentenceRecognition/wordsDatabase/cosas.txt'),
     isMember(X, Ts).
 
 % =========================================================================

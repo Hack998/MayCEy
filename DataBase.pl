@@ -7,9 +7,9 @@
 % Estructura: aeronave(tipo de Nave, lista de Naves).
 % =========================================================================
 
-aeronave(pequena, [cessna, embraerPhenom, beechraft]).
-aeronave(mediana, [boeing717, embraer190, airBusA220]).
-aeronave(grande, [boeing747, airBusA340, airBusA380]).
+aeronave(pequena, ["cessna", "embraerPhenom", "beechraft"]).
+aeronave(mediana, ["boeing717", "embraer190", "airBusA220"]).
+aeronave(grande, ["boeing747", "airBusA340", "airBusA380"]).
 
 % =========================================================================
 % Tabla: Pistas
@@ -18,20 +18,20 @@ aeronave(grande, [boeing747, airBusA340, airBusA380]).
 % =========================================================================
 
 :-dynamic pista/7.
-pista(p1, "1km", [pequena], [ns, eo, oe, sn], na, 0, "").
-pista(p2-1, "2km", [pequena, mediana], [eo], na, 0, "").
-pista(p2-2, "2km", [pequena, mediana], [oe], na, 0, "").
-pista(p3, "3km", [pequena, mediana, grande], [ns, eo, oe, sn], na, 0, "").
+pista(p1, "1km", [pequena], ["nortesur", "esteoeste", "oesteeste", "surnorte"], na, 0, "").
+pista(p2-1, "2km", [pequena, mediana], ["esteoeste"], na, 0, "").
+pista(p2-2, "2km", [pequena, mediana], ["oesteeste"], na, 0, "").
+pista(p3, "3km", [pequena, mediana, grande], ["nortesur", "esteoeste", "oesteeste", "surnorte"], na, 0, "").
 
 % =========================================================================
 % Tabla: Emergencias
 % Estructura: respuestaE(emergencia, respuesta)
 % =========================================================================
 
-respuestaE(perdidaMotor, llamarBomberos).
-respuestaE(parto, llamarMedico).
-respuestaE(paroCardiaco, llamarMedico).
-respuestaE(secuestro, llamarOijFP).
+respuestaE("motor", llamarBomberos).
+respuestaE("parto", llamarMedico).
+respuestaE("cardiaco", llamarMedico).
+respuestaE("secuestro", llamarOijFP).
 
 % =========================================================================
 % Tabla: Condiciones Aterrizaje
@@ -81,7 +81,7 @@ asignarPista(Nave, Dir, Placa):-
     miembro(TNave, Tams), miembro(Dir, Dirs),
     horaActual(HoraAsig),
     write("Se asigno la pista "), write(Pista),
-    write(" para usar a las "), write(HoraAsig), write("hrs"),
+    write(" para usar a las "), write(HoraAsig), write("hrs."),
     assert(pista(Pista, Dist, Tams, Dirs, Nave, HoraAsig, Placa)),
     retract(pista(Pista, Dist, Tams, _, na, 0, "")).
 
@@ -92,7 +92,7 @@ asignarPista(Nave, Dir, Placa):-
     miembro(TNave, Tams), miembro(Dir, Dirs),
     NHoraAsig is HoraAsig + 5,
     write("Se asigno la pista "), write(Pista),
-    write(" para usar a las "), write(NHoraAsig), write("hrs"),
+    write(" para usar a las "), write(NHoraAsig), write("hrs."),
     assert(pista(Pista, Dist, Tams, Dirs, Nave, NHoraAsig, Placa)),
     retract(pista(Pista, Dist, Tams, Dirs, _, HoraAsig, _)).
 
@@ -109,7 +109,7 @@ asignarPista(Nave, HoraAsig, Dir, Placa):-
     pista(Pista, _, Tams, Dirs, na, _, _),
     miembro(TNave, Tams), miembro(Dir, Dirs),
     write("Se asigno la pista "), write(Pista),
-    write(" para usar a las "), write(HoraAsig), write("hrs"),
+    write(" para usar a las "), write(HoraAsig), write("hrs."),
     assert(pista(Pista, _, Tams, Dirs, Nave, HoraAsig, Placa)),
     retract(pista(Pista, _, Tams, _, na, 0, "")).
 
@@ -119,7 +119,7 @@ asignarPista(Nave, HoraAsig, Dir, Placa):-
     miembro(TNave, Tams), miembro(Dir, Dirs),
     THoraAsig is HoraAsig + 5, validarHora(THoraAsig, NHoraAsig),
     write("Se asigno la pista "), write(Pista),
-    write(" para usar a las "), write(NHoraAsig), write("hrs"),
+    write(" para usar a las "), write(NHoraAsig), write("hrs."),
     assert(pista(Pista, Dist, Tams, Dirs, Nave, NHoraAsig, Placa)),
     retract(pista(Pista, Dist, Tams, Dirs, _, HoraAsig, _)).
 
@@ -145,10 +145,10 @@ liberarPista(Nave, HoraAsig, Dir, Placa):-
 
 liberarTodo:-
     retractall(pista(_,_,_,_,_,_,_)),
-    assert(pista(p1, "1km", [pequena], [ns, eo, oe, sn], na, 0, "")),
-    assert(pista(p2-1, "2km", [pequena, mediana], [eo], na, 0, "")),
-    assert(pista(p2-2, "2km", [pequena, mediana], [oe], na, 0, "")),
-    assert(pista(p3, "3km", [pequena, mediana, grande], [ns, eo, oe, sn], na, 0, "")).
+    assert(pista(p1, "1km", [pequena], ["nortesur", "esteoeste", "oesteeste", "surnorte"], na, 0, "")),
+    assert(pista(p2-1, "2km", [pequena, mediana], ["esteoeste"], na, 0, "")),
+    assert(pista(p2-2, "2km", [pequena, mediana], ["oesteeste"], na, 0, "")),
+    assert(pista(p3, "3km", [pequena, mediana, grande], ["nortesur", "esteoeste", "oesteeste", "surnorte"], na, 0, "")).
 
 % =========================================================================
 % Regla : obtHora
@@ -188,3 +188,9 @@ validarHora(H, NH):-
 
 validarHora(H, NH):-
     NH is H.
+
+% =========================================================================
+% Regla : verif_gracias
+% Params: H - String a comparar
+% =========================================================================
+verif_gracias(X):- X="gracias";X="adios".
