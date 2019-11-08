@@ -95,7 +95,8 @@ casoEspecial--> [X]->[Y],
 casoEspecial--> [X],
     {keyword(X)}.
 
-oracion--> predicado; predicado->sustantivo; sustantivo->predicado; casoEspecial.
+oracion--> predicado; predicado->sustantivo; sustantivo->predicado.
+oracion--> casoEspecial.
 
 sentenceQuery(Z, Resultado):-
     string_to_atom(Z, W),
