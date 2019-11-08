@@ -3,9 +3,8 @@ lugar
 permiso
 pista
 perdida
-motores
+motor
 matricula
 vuelo
-pasajero
 dias
 noches

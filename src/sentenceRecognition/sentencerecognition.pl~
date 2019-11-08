@@ -1,102 +1,68 @@
 :- set_prolog_flag(double_quotes, chars).
 
-findInFile(Lines, File):-
-    open(File, read, Str),
-    read_file(Str, Lines),
-    close(Str).
 
-read_file(Stream, []) :-
-    at_end_of_stream(Stream).
+token(T) -->
+        alnum(L),
+        token_(Ls),
+        !,
+        { atom_chars(T, [L|Ls]) }.
 
-read_file(Stream,[X|L]) :-
-    \+ at_end_of_stream(Stream),
-    read_line_to_codes(Stream,Codes),
-    atom_chars(X, Codes),
-    read_file(Stream,L), !.
+spaces --> [].
+spaces --> space, spaces.
+
+space --> [S], { char_type(S, space) }.
+
+alnum(A) --> [A], { char_type(A, alnum) }.
+
+token_([L|Ls]) --> alnum(L), token_(Ls).
+token_([])     --> [].
+tokens([])     --> [].
+tokens([T|Ts]) --> token(T), spaces, tokens(Ts).
 
 isMember(X, [X|_]).
 isMember(X, [_|Y]):- isMember(X, Y).
 
-atributo(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/atributos.txt'),
+isKeyword(X, Y):- X == Y.
+
+keyword(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/keywords.txt'),
      isMember(X, Ts).
 
-keyword(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/keywords.txt'),
+verbo(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/verbos.txt'),
      isMember(X, Ts).
 
-verbo(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/verbos.txt'),
-     isMember(X, Ts), !.
-
-pronombre(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/pronombres.txt'),
+pronombre(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/pronombres.txt'),
     isMember(X, Ts).
 
-sujeto(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/sujetos.txt'),
+sujeto(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/sujetos.txt'),
     isMember(X, Ts).
 
-preposicion(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/preposiciones.txt'),
+preposicion(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/preposiciones.txt'),
     isMember(X, Ts).
 
-cosa(X):- findInFile(Ts, 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/cosas.txt'),
+cosa(X):- phrase_from_file(tokens(Ts), 'D:/OneDriveTEC/OneDrive - Estudiantes ITCR/GITHUB/MayCEy/MayCEy/src/sentenceRecognition/wordsDatabase/cosas.txt'),
     isMember(X, Ts).
 
-objeto--> [Z]->[X]->[Y],
+objeto--> {preposicion(X)},
     {verbo(Y)},
-    {preposicion(X)},
     {cosa(Z)},
-    !.
-objeto--> [Z]->[X]->[Y],
-    {cosa(Y)},
-    {preposicion(X)},
-    {cosa(Z)},
-    !.
-objeto--> [Z],
-    {cosa(Z)},
-    !.
-objeto-->  [Y],
-    {verbo(Y)},
-    !.
-objeto--> [X],
-    {keyword(X)}.
+    [Z]->[X]->[Y].
+objeto--> {cosa(Z)},
+    [Z].
+objeto--> {verbo(Y)}, [Y].
 
-predicado--> [X]->objeto,
-    {verbo(X)}.
-predicado--> [Y]->[Z]->[X],
-    {cosa(Y)},
-    {preposicion(Z)},
-    {keyword(X)}.
-predicado--> [X]->[Y]->[C],
-    {keyword(X)},
-    {preposicion(Y)},
-    {cosa(C)}.
-predicado--> [X]->[Y]->[A]->[C],
-    {keyword(X)},
-    {preposicion(Y)},
-    {atributo(A)},
-    {cosa(C)}.
-predicado--> [X]->[Y]->[A]->[C],
-    {keyword(X)},
-    {keyword(Y)},
-    {preposicion(A)},
-    {cosa(C)}.
-predicado--> objeto.
-
+predicado--> {verbo(X)},
+    [X]->objeto.
 
 adjetivo--> [] ; [adjetivo]->adjetivo.
 
-sustantivo--> [X]->[Y]->adjetivo,
-    {pronombre(X)},
-    {sujeto(Y)}.
-sustantivo--> [X]->[Y],
-    {pronombre(X)},
-    {sujeto(Y)}.
+sustantivo--> {pronombre(X)},
+    {sujeto(Y)},
+    [X]->[Y]->adjetivo.
 
-casoEspecial--> [X]->[Y],
-    {keyword(X)},
-    {cosa(Y)}.
-casoEspecial--> [X],
-    {keyword(X)}.
+oracion--> predicado, !; predicado->sustantivo, !; sustantivo->predicado, !.
 
-oracion--> predicado; predicado->sustantivo; sustantivo->predicado.
-oracion--> casoEspecial.
+
+
 
 sentenceQuery(Z, Resultado):-
     string_to_atom(Z, W),
@@ -105,14 +71,5 @@ sentenceQuery(Z, Resultado):-
     phrase(oracion, L),
     keyword(R),
     isMember(R, L),
-    atom_string(R, Resultado),
-    !.
-sentenceQuery(Z, Resultado):-
-    string_to_atom(Z, W),
-    downcase_atom(W, X),
-    keyword(X),
-    atom_string(X, Resultado),
-    !.
-sentenceQuery(_, Resultado):-
-    atom_string("-1", Resultado),
+    string_to_atom(R, Resultado),
     !.
